@@ -1,6 +1,8 @@
 let timer;
-let minutes = 25;
-let seconds = 0;
+let minutes = 0;
+let seconds = 03;
+let audio = new Audio("assets/ding.wav");
+audio.volume = 1;
 
 document.getElementById("pomo-time").addEventListener("click", () => {
     minutes = 25;
@@ -71,6 +73,7 @@ function countDown() {
     
     if (minutes == -1) {
         clearInterval(timer);
+        audio.play();
     }   
 }
 
