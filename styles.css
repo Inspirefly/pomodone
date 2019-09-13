@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+    background-color: whitesmoke;
+    color: #333333;
+    font-size: 16px;
+    font-family: "Roboto Mono", monospace;
+}
+
+#header {
+    font-size: 3rem;
+    text-align: center;
+    padding: 0.5em;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+}
+
+#clock {
+    cursor: pointer;
+    align-self: center;
+    display: flex;
+    font-size: 10rem;
+    margin: 1em 0;
+}
