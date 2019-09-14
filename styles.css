@@ -12,9 +12,10 @@ html, body {
     cursor: default;
 }
 
-#container {
+#primary-container {
     display: grid;
     grid-template-columns: 20% 60% 20%;
+    grid-template-rows: 10% 90%;
 }
 
 #header {
@@ -28,13 +29,14 @@ html, body {
     grid-column: 3 / 4;
     justify-self: end;
     font-size: 3rem;
-    padding: 0em 1em;
+    margin: 0.8em 0.8em 0em 0em;
     display: grid;
     grid-template-rows: 1fr 1fr;
 }
 
 #side-bar i {
-    margin: 0.1em 0em;
+    margin: 0.1em;
+    cursor: pointer;
 }
 
 #main {
@@ -45,6 +47,7 @@ html, body {
 #nav {
     list-style: none;
     font-size: 2rem;
+    margin-top: -1.5em;
 }
 
 #nav li {
@@ -78,4 +81,23 @@ html, body {
 #buttons i {
     margin: 0em 0.1em;
     cursor: pointer;
+}
+
+/* Settings */
+#settings {
+    height: 50vh;
+    width: 50vw;
+    position: absolute;
+    bottom: 25vh;
+    left: 25vw;
+    background-color: #ffffff;
+    border-radius: 1px;
+    box-shadow: 1px 1px 10px -1px #999999;
+    display: grid;
+    grid-template-rows: 5% 1fr;
+}
+
+#settings-header {
+    /* border-bottom: 0.5px solid #999999; */
+    cursor: grabbing;
 }

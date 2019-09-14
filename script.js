@@ -1,6 +1,6 @@
 let timer;
-let minutes = 0;
-let seconds = 03;
+let minutes = 25;
+let seconds = 0;
 let audio = new Audio("assets/ding.wav");
 audio.volume = 1;
 
@@ -72,7 +72,7 @@ function countDown() {
     }
     
     if (minutes == -1) {
-        clearInterval(timer);
+        toggleTimerOn();
         audio.play();
     }   
 }
@@ -97,8 +97,7 @@ function toggleTimerOn() {
 
     let playPauseClassList = document.getElementById("play-pause").classList;
 
-    if (minutes == -1);
-    else if (timerClassList.contains("on")) {
+    if (minutes != -1 && timerClassList.contains("on")) {
         timer = setInterval(countDown, 1000);
         playPauseClassList.remove("fa-play");
         playPauseClassList.add("fa-pause");
@@ -108,3 +107,48 @@ function toggleTimerOn() {
         clearInterval(timer);
     }
 }
+
+/* w3schools draggle element */
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "-header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "-header").onmousedown = dragMouseDown;
+  } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+
+/* Settings */
+dragElement(document.getElementById("settings"));
