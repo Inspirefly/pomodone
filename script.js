@@ -5,9 +5,16 @@ let seconds = 0;
 let audio = new Audio("assets/ding.wav");
 audio.volume = 1;
 
+let pomoMin = document.getElementsByName("pomo-min")[0].value;
+let pomoSec = document.getElementsByName("pomo-sec")[0].value;
+let shortMin = document.getElementsByName("short-min")[0].value;
+let shortSec = document.getElementsByName("short-sec")[0].value;
+let longMin = document.getElementsByName("long-min")[0].value;
+let longSec = document.getElementsByName("long-sec")[0].value;
+
 document.getElementById("pomo-time").addEventListener("click", () => {
-    minutes = 25;
-    seconds = 0;
+    minutes = pomoMin;
+    seconds = pomoSec;
 
     display_time();
 
@@ -17,8 +24,8 @@ document.getElementById("pomo-time").addEventListener("click", () => {
 });
 
 document.getElementById("short-time").addEventListener("click", () => {
-    minutes = 5;
-    seconds = 0;
+    minutes = shortMin;
+    seconds = shortSec;
 
     display_time();
 
@@ -28,8 +35,8 @@ document.getElementById("short-time").addEventListener("click", () => {
 });
 
 document.getElementById("long-time").addEventListener("click", () => {
-    minutes = 15;
-    seconds = 0;
+    minutes = longMin;
+    seconds = longSec;
 
     display_time();
 
@@ -46,21 +53,7 @@ document.getElementById("play-pause").addEventListener("click", () => {
     toggleTimerOn();
 });
 
-document.getElementById("reset").addEventListener("click", () => {
-    if (document.getElementById("pomo-time").classList.contains("selected-time")) {
-        minutes = 25;
-        seconds = 0;
-        display_time();
-    } else if (document.getElementById("short-time").classList.contains("selected-time")) {
-        minutes = 5;
-        seconds = 0;
-        display_time();
-    } else {
-        minutes = 15;
-        seconds = 0;
-        display_time();
-    }
-});
+document.getElementById("reset").addEventListener("click", resetTime);
 
 /* Settings */
 document.getElementById("open-settings").addEventListener("click", () => {
@@ -69,10 +62,47 @@ document.getElementById("open-settings").addEventListener("click", () => {
     settings.style.width = "50vw";
     settings.style.top = "25vh";
     settings.style.left = "25vw";
-    settings.style.display = "inline-block";
-})
+    settings.style.display = "grid";
+    prettyTimes();
+});
 
 dragElement(document.getElementById("settings"));
+
+document.getElementById("settings-confirm").addEventListener("click", () => {
+    let valid = true;
+
+    let tempPomoMin = document.getElementsByName("pomo-min")[0].value;
+    let tempPomoSec = document.getElementsByName("pomo-sec")[0].value;
+    let tempShortMin = document.getElementsByName("short-min")[0].value;
+    let tempShortSec = document.getElementsByName("short-sec")[0].value;
+    let tempLongMin = document.getElementsByName("long-min")[0].value;
+    let tempLongSec = document.getElementsByName("long-sec")[0].value;
+    
+    if ((!Number.isNaN(tempPomoMin) && tempPomoMin >= 0) &&
+    (!Number.isNaN(tempPomoSec) && tempPomoSec >= 0 && tempPomoSec < 60) &&
+    (!Number.isNaN(tempShortMin) && tempShortMin >= 0) &&
+    (!Number.isNaN(tempShortSec) && tempShortSec >= 0 && tempShortSec < 60) &&
+    (!Number.isNaN(tempLongMin) && tempLongMin >= 0) &&
+    (!Number.isNaN(tempLongSec) && tempLongSec >= 0 && tempLongSec < 60))
+        valid = true;
+    else
+        valid = false;
+
+    if (valid) {
+        pomoMin = tempPomoMin;
+        pomoSec = tempPomoSec;
+        shortMin = tempShortMin;
+        shortSec = tempShortSec;
+        longMin = tempLongMin;
+        longSec = tempLongSec;
+    } else {
+        alert("Value must be a number and seconds less than 60.");
+    }
+
+    document.getElementById("settings-exit").parentNode.parentNode.style.display = "none";
+    resetTime();
+    display_time();
+});
 
 document.getElementById("settings-exit").addEventListener("click", () => {
     document.getElementById("settings-exit").parentNode.parentNode.style.display = "none";
@@ -97,14 +127,14 @@ function countDown() {
 
 function display_time() {
     if (minutes < 10)
-        document.getElementById("minutes").innerText = "0" + minutes;
+        document.getElementById("minutes").innerText = "0" + Number(minutes);
     else
-        document.getElementById("minutes").innerText = minutes;
+        document.getElementById("minutes").innerText = Number(minutes);
 
     if (seconds < 10)
-        document.getElementById("seconds").innerText = "0" + seconds;
+        document.getElementById("seconds").innerText = "0" + Number(seconds);
     else
-        document.getElementById("seconds").innerText = seconds;
+        document.getElementById("seconds").innerText = Number(seconds);
 
     document.title = "Pomodone (" + document.getElementById("minutes").innerText + ":" + document.getElementById("seconds").innerText + ")";
 }
@@ -136,6 +166,51 @@ function dragElement(element) {
     function closeDragElement() {
         document.onmouseup = null;
         document.onmousemove = null;
+    }
+}
+
+function prettyTimes() {
+    if (pomoMin < 10)
+        document.getElementsByName("pomo-min")[0].value = "0" + Number(pomoMin);
+    else
+        document.getElementsByName("pomo-min")[0].value =  Number(pomoMin);
+    if (pomoSec < 10)
+        document.getElementsByName("pomo-sec")[0].value = "0" + Number(pomoSec);
+    else
+        document.getElementsByName("pomo-sec")[0].value = Number(pomoSec);
+
+    if (shortMin < 10)
+        document.getElementsByName("short-min")[0].value = "0" + Number(shortMin);
+    else
+        document.getElementsByName("short-min")[0].value =  Number(shortMin);
+    if (shortSec < 10)
+        document.getElementsByName("short-sec")[0].value = "0" + Number(shortSec);
+    else
+        document.getElementsByName("short-sec")[0].value = Number(shortSec);
+
+    if (longMin < 10)
+        document.getElementsByName("long-min")[0].value = "0" + Number(longMin);
+    else
+        document.getElementsByName("long-min")[0].value =  Number(longMin);
+    if (longSec < 10)
+        document.getElementsByName("long-sec")[0].value = "0" + Number(longSec);
+    else
+        document.getElementsByName("long-sec")[0].value = Number(longSec);
+}
+
+function resetTime() {
+    if (document.getElementById("pomo-time").classList.contains("selected-time")) {
+        minutes = pomoMin;
+        seconds = pomoSec;
+        display_time();
+    } else if (document.getElementById("short-time").classList.contains("selected-time")) {
+        minutes = shortMin;
+        seconds = shortSec;
+        display_time();
+    } else {
+        minutes = longMin;
+        seconds = longSec;
+        display_time();
     }
 }
 
