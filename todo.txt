@@ -1,0 +1,14 @@
+TO DO
+x add sound when time is completed
+. add a ticking sound for each second
++ ability to turn off and customize  sounds
++ ability to customize times
++ add a log with ability to edit
++ save log to local storage
++ ability to export log
++ add a cycle
++ visually keep track of pomodoro's completed with stars and add ability to hover over for pomodoro information from log
++ make it responsive
++ replace font awesome icons with my own
++ night mode
+

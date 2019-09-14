@@ -11,7 +11,7 @@
         <div id="primary-container">
             <h1 id="header">Pomodone</h1>
             <div id="side-bar">
-                <i class="fas fa-cog"></i>
+                <i class="fas fa-cog" id="open-settings"></i>
                 <i class="fas fa-bars"></i>
             </div>
             <div id="main">
@@ -32,8 +32,16 @@
             </div>
         </div>
         <div id="settings">
-            <div id="settings-header"></div>
-            <h1>Settings</h1>
+            <div id="settings-header"><i class="fas fa-times exit" id="settings-exit"></i></div>
+            <h3>Settings</h3>
+            <fieldset id="times">
+                <legend>Custom Time</legend>
+                <form>
+                    <fieldset><label for="pomodoro">Pomodoro</label><input type="text" name="pomo-min" value="25"> : <input type="text" name="pomo-sec" value="00"><br></fieldset>
+                    <fieldset><label for="short-break">Short Break</label><input type="text" name="short-min" value="5"> : <input type="text" name="short-sec" value="00"><br></fieldset>
+                    <fieldset><label for="long-break">Long Break</label><input type="text" name="long-min" value="15"> : <input type="text" name="long-sec" value="00"><br></fieldset>
+                </form>
+            </fieldset>
         </div>
         <script type="text/javascript" src="script.js"></script>
     </body>
