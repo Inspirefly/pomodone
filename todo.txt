@@ -2,7 +2,7 @@ TO DO
 x add sound when time is completed
 . add a ticking sound for each second
 + ability to turn off and customize  sounds
-+ ability to customize times
+x ability to customize times
 + add a log with ability to edit
 + save log to local storage
 + ability to export log
@@ -11,4 +11,8 @@ x add sound when time is completed
 + make it responsive
 + replace font awesome icons with my own
 + night mode
++ resize settings and log
++ push notifications when timer is done
++ to do log
++ instead of removing the input form and reseting custom times, have a reset button
 

@@ -96,7 +96,8 @@ html, body {
     display: grid;
     grid-template-rows: 7% 10% 1fr 1fr 1fr 5%;
     grid-template-columns: 5% 1fr 5%;
-    display: none;
+    /* display: none; */
+    font-size: 1.5rem;
 }
 
 #settings-header {
@@ -125,28 +126,25 @@ html, body {
 #times {
     grid-column: 2 / 3;
     grid-row: 3 / 4;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    border: 0.3em solid #333333;
-}
-
-#times legend {
-    grid-row: 1 / 2; 
-    margin-left: 1em;
+    border: 0;
+    margin: 2em 0em;
 }
 
 #times form {
-    grid-row: 2 / 3;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 5%;
+    grid-template-rows: 1fr 1fr 1fr;
 }
 
 #times form fieldset {
     display: grid;
-    grid-template-columns: 15% 2.5em 1em 2.5em 1fr;
+    grid-template-columns: 7em 2.5em 1em 2.5em 1fr;
     border: 0;
     align-items: center;
     padding: 0em 0em 0.5em 0.5em;
+}
+
+.colon {
+    text-align: center;
 }
 
 #times form fieldset:nth-child(1) {
@@ -164,9 +162,10 @@ html, body {
 #times form input[type="text"] {
     width: 3em;
     font-family: "Roboto Mono", monospace;
+    font-size: 1.3rem;
     color: #333333;
     text-align: right;
-    padding: 0.5em;
+    padding: 0.3em;
     border: 0em solid #333333;
     background-color: whitesmoke;
 }
@@ -177,6 +176,6 @@ html, body {
     justify-self: end;
     align-self: end;
     font-weight: bold;
-    font-size: 2em;
+    font-size: 2rem;
     cursor: pointer;
 }
