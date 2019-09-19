@@ -88,6 +88,8 @@ body {
 #settings {
     height: 50vh;
     width: 50vw;
+    /* max-width: 720px;
+    max-height: 480px; */
     position: absolute;
     top: 25vh;
     left: 25vw;
@@ -96,7 +98,7 @@ body {
     box-shadow: 1px 1px 10px -1px #999999;
     display: grid;
     grid-template-rows: 7% 10% 1fr 1fr 1fr 5%;
-    grid-template-columns: 5% 1fr 5%;
+    grid-template-columns: 5% 1fr 1fr 5%;
     /* display: none; */
     font-size: 1.5rem;
 }
@@ -106,7 +108,7 @@ body {
     display: flex;
     justify-content: flex-end;
     grid-row: 1 / 2;
-    grid-column: 1 / span 3;
+    grid-column: 1 / span 4;
 }
 
 .exit {
@@ -171,8 +173,39 @@ body {
     background-color: whitesmoke;
 }
 
+#other-options {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+    align-self: center;
+    border: 0;
+    margin: 2em 0em;
+    text-align: center;
+}
+
+.checkbox {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid black;
+}
+
+.checked:after {
+    font-family: FontAwesome;
+    content: "\f00c";
+    display: inline-block;
+    position: absolute;
+    font-size: 0.75em;
+    color: #333333;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
 .confirm {
-    grid-column: 2 / 3;
+    grid-column: 3 / 4;
     grid-row: 5 / 6;
     justify-self: end;
     align-self: end;
@@ -188,7 +221,7 @@ body {
 
     #times form {
         justify-items: center;
-        text-align: center;
+        text-align: center; 
     }
 
     #times form fieldset {

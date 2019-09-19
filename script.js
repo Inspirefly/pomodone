@@ -5,6 +5,9 @@ let seconds = 0;
 let audio = new Audio("assets/ding.wav");
 audio.volume = 1;
 
+let sound = true;
+let cycle = false;
+
 let pomoMin = document.getElementsByName("pomo-min")[0].value;
 let pomoSec = document.getElementsByName("pomo-sec")[0].value;
 let shortMin = document.getElementsByName("short-min")[0].value;
@@ -63,12 +66,29 @@ document.getElementById("open-settings").addEventListener("click", () => {
     settings.style.top = "25vh";
     settings.style.left = "25vw";
     settings.style.display = "grid";
+
+    /* Times */
     prettyTimes();
+
+    /* Sound */
+    if (sound) {
+        document.getElementById("sound").classList.add("checked");
+    } else {
+        document.getElementById("sound").classList.remove("checked");
+    }
+
+    /* Cycle */
+    if (cycle) {
+        document.getElementById("cycle").classList.add("checked");
+    } else {
+        document.getElementById("cycle").classList.remove("checked");
+    }
 });
 
 dragElement(document.getElementById("settings"));
 
 document.getElementById("settings-confirm").addEventListener("click", () => {
+    /* Times */
     let valid = true;
 
     let tempPomoMin = document.getElementsByName("pomo-min")[0].value;
@@ -99,6 +119,22 @@ document.getElementById("settings-confirm").addEventListener("click", () => {
         alert("Value must be a number and seconds less than 60.");
     }
 
+    /* Sound */
+    if (document.getElementById("sound").classList.contains("checked")) {
+        sound = true;
+        audio.volume = 1;
+    } else {
+        sound = false;
+        audio.volume = 0;
+    }
+
+    /* Cycle */
+    if (document.getElementById("cycle").classList.contains("checked")) {
+        cycle = true;
+    } else {
+        cycle = false;
+    }
+
     document.getElementById("settings-exit").parentNode.parentNode.style.display = "none";
     resetTime();
     display_time();
@@ -107,6 +143,13 @@ document.getElementById("settings-confirm").addEventListener("click", () => {
 document.getElementById("settings-exit").addEventListener("click", () => {
     document.getElementById("settings-exit").parentNode.parentNode.style.display = "none";
 });
+
+const checkboxes = document.getElementsByClassName("checkbox");
+for (let i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener("click", () => {
+        checkboxes[i].classList.toggle("checked");
+    });
+}
 
 /* Functions */
 function countDown() {
