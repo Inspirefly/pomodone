@@ -1,4 +1,5 @@
 /* Main */
+let currentTime = document.getElementsByClassName("selected-time")[0];
 let timer;
 let minutes = 25;
 let seconds = 0;
@@ -7,6 +8,7 @@ audio.volume = 1;
 
 let sound = true;
 let cycle = false;
+let pomos = 0;
 
 let pomoMin = document.getElementsByName("pomo-min")[0].value;
 let pomoSec = document.getElementsByName("pomo-sec")[0].value;
@@ -133,6 +135,7 @@ document.getElementById("settings-confirm").addEventListener("click", () => {
         cycle = true;
     } else {
         cycle = false;
+        pomos = 0;
     }
 
     document.getElementById("settings-exit").parentNode.parentNode.style.display = "none";
@@ -165,6 +168,27 @@ function countDown() {
     if (minutes == -1) {
         toggleTimerOn();
         audio.play();
+
+        if (cycle) {
+            switch (currentTime.id) {
+                case "pomo-time":
+                    if (pomos < 3) {
+                        pomos += 1;
+                        document.getElementById("short-time").click();
+                    } else {
+                        pomos = 0;
+                        document.getElementById("long-time").click();
+                    }
+                    break;
+                case "short-time":
+                case "long-time":
+                    document.getElementById("pomo-time").click();
+                    break
+            }
+            document.getElementById("play-pause").click();
+        } else {
+            pomos = 0;
+        }
     }   
 }
 
@@ -258,6 +282,8 @@ function resetTime() {
 }
 
 function toggleTimerOn() {
+    currentTime = document.getElementsByClassName("selected-time")[0];
+
     let timerClassList = document.getElementById("timer").classList;
     timerClassList.toggle("on");
 
