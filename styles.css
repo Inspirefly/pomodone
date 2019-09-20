@@ -10,11 +10,16 @@ body {
     font-size: 1rem;
     font-family: "Roboto Mono", monospace;
     cursor: default;
+    display: grid;
+    justify-items: center;
+    grid-template-columns: 10% 1fr 10%;
 }
 
 #primary-container {
+    grid-column: 2 / 3;
+    width: 100%;
     display: grid;
-    grid-template-columns: 20% 60% 20%;
+    grid-template-columns: 5% 90% 5%;
     grid-template-rows: 10% 90%;
 }
 
@@ -45,15 +50,16 @@ body {
 }
 
 #nav {
+    margin-top: 1em;
     list-style: none;
     font-size: 2rem;
-    margin-top: -1.5em;
     text-align: center;
 }
 
 #nav li {
     display: inline-block;
     margin: 1.5em 1.5em 0em 1.5em;
+    border-bottom: 0.1em solid transparent;
 }
 
 #nav li:hover {
@@ -86,20 +92,20 @@ body {
 
 /* Settings */
 #settings {
+    grid-column: 2 / 3;
     height: 50vh;
     width: 50vw;
-    /* max-width: 720px;
-    max-height: 480px; */
+    max-width: 720px;
+    max-height: 480px;
     position: absolute;
-    top: 25vh;
-    left: 25vw;
+    top: 10em;
     background-color: #ffffff;
     border-radius: 1px;
     box-shadow: 1px 1px 10px -1px #999999;
     display: grid;
     grid-template-rows: 7% 10% 1fr 1fr 1fr 5%;
     grid-template-columns: 5% 1fr 1fr 5%;
-    /* display: none; */
+    display: none;
     font-size: 1.5rem;
 }
 
