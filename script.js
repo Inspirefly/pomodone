@@ -66,6 +66,7 @@ document.getElementById("open-settings").addEventListener("click", () => {
     settings.style.height = "50vh";
     settings.style.width = "50vw";
     settings.style.top = "10em";
+    settings.style.left = "";
     settings.style.display = "grid";
 
     /* Times */
