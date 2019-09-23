@@ -1,55 +1,59 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Pomodone</title>
-        <link rel="stylesheet" type="text/css" href="styles.css">
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
-        <script src="https://kit.fontawesome.com/21ff6c482f.js"></script>
-    </head>
-    <body>
-        <div id="primary-container">
-            <h1 id="header">Pomodone</h1>
-            <div id="side-bar">
-                <i class="fas fa-cog" id="open-settings"></i>
-                <i class="fas fa-bars"></i>
-            </div>
-            <div id="main">
-                    <ul id="nav">
-                        <li id="pomo-time" class="selected-time">Pomodoro</li>
-                        <li id="short-time">Short Break</li>
-                        <li id="long-time">Long Break</li>
-                    </ul>
-                <div id="timer">
-                    <div id="clock">
-                        <span id="minutes">25</span><span>:</span><span id="seconds">00</span>
-                    </div>
-                    <div id="buttons">
-                        <i id="play-pause" class="fas fa-play"></i>
-                        <i id="reset" class="fas fa-redo"></i>
-                    </div>
-                </div>
-            </div>
+  <head>
+    <meta charset="utf-8">
+    <title>Pomodone</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/21ff6c482f.js"></script>
+  </head>
+  <body>
+    <div id="primary-container">
+      <h1 id="header">Pomodone</h1>
+      <div id="side-bar">
+        <i class="fas fa-cog" id="open-settings"></i>
+        <i class="fas fa-bars" id="open-log"></i>
+      </div>
+      <div id="main">
+        <ul id="nav">
+          <li id="pomo-time" class="selected-time">Pomodoro</li>
+          <li id="short-time">Short Break</li>
+          <li id="long-time">Long Break</li>
+        </ul>
+        <div id="timer">
+          <div id="clock">
+            <span id="minutes">25</span><span>:</span><span id="seconds">00</span>
+          </div>
+          <div id="buttons">
+            <i id="play-pause" class="fas fa-play"></i>
+            <i id="reset" class="fas fa-redo"></i>
+          </div>
         </div>
-        <div id="settings">
-            <div id="settings-header"><i class="fas fa-times exit" id="settings-exit"></i></div>
-            <h3>Settings</h3>
-            <fieldset id="times">
-                <form>
-                    <fieldset><label for="pomodoro">Pomodoro</label><input type="text" name="pomo-min" value="25" autocomplete=off><span class="colon"> : </span><input type="text" name="pomo-sec" value="00" autocomplete=off><br></fieldset>
-                    <fieldset><label for="short-break">Short Break</label><input type="text" name="short-min" value="5" autocomplete=off><span class="colon"> : </span><input type="text" name="short-sec" value="00" autocomplete=off><br></fieldset>
-                    <fieldset><label for="long-break">Long Break</label><input type="text" name="long-min" value="15" autocomplete=off><span class="colon"> : </span><input type="text" name="long-sec" value="00" autocomplete=off><br></fieldset>
-                </form>
-            </fieldset>
-            <div id="other-options">
-                Sound
-                <span class="checkbox checked" id="sound"></span>
-                <br><br>
-                Cycle
-                <span class="checkbox" id="cycle"></span>
-            </div>
-            <i id="settings-confirm" class="fas fa-check confirm"></i></div>
-        </div>
-        <script type="text/javascript" src="script.js"></script>
-    </body>
+      </div>
+    </div>
+    <div id="settings">
+      <div id="settings-header"><i class="fas fa-times exit" id="settings-exit"></i></div>
+      <h3>Settings</h3>
+      <fieldset id="times">
+        <form>
+          <fieldset><label for="pomodoro">Pomodoro</label><input type="text" name="pomo-min" value="25" autocomplete=off><span class="colon"> : </span><input type="text" name="pomo-sec" value="00" autocomplete=off><br></fieldset>
+          <fieldset><label for="short-break">Short Break</label><input type="text" name="short-min" value="5" autocomplete=off><span class="colon"> : </span><input type="text" name="short-sec" value="00" autocomplete=off><br></fieldset>
+          <fieldset><label for="long-break">Long Break</label><input type="text" name="long-min" value="15" autocomplete=off><span class="colon"> : </span><input type="text" name="long-sec" value="00" autocomplete=off><br></fieldset>
+        </form>
+      </fieldset>
+      <div id="other-options">
+        Sound
+        <span class="checkbox checked" id="sound"></span>
+        <br><br>
+        Cycle
+        <span class="checkbox" id="cycle"></span>
+      </div>
+      <i id="settings-confirm" class="fas fa-check confirm"></i>
+    </div>
+    <div id="log">
+      <div id="log-header"><i class="fas fa-times exit" id="log-exit"></i></div>
+      <i id="log-confirm" class="fas fa-check confirm"></i>
+    </div>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
 </html>
