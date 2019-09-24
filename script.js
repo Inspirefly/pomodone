@@ -6,47 +6,88 @@ let timer;
 let minutes = 25;
 let seconds = 0;
 let audio = new Audio("assets/ding.wav");
-audio.volume = 1;
+audio.volume;
 
-let sound = true;
-let cycle = false;
 let pomos = 0;
 
-let pomoMin = document.getElementsByName("pomo-min")[0].value;
-let pomoSec = document.getElementsByName("pomo-sec")[0].value;
-let shortMin = document.getElementsByName("short-min")[0].value;
-let shortSec = document.getElementsByName("short-sec")[0].value;
-let longMin = document.getElementsByName("long-min")[0].value;
-let longSec = document.getElementsByName("long-sec")[0].value;
+let timeStorage = localStorage.getItem('times');
+let times;
+
+if (timeStorage) {
+  times = JSON.parse(localStorage.getItem('times'));
+} else {
+    let pomoMin = document.getElementsByName("pomo-min")[0].value;
+    let pomoSec = document.getElementsByName("pomo-sec")[0].value;
+    let shortMin = document.getElementsByName("short-min")[0].value;
+    let shortSec = document.getElementsByName("short-sec")[0].value;
+    let longMin = document.getElementsByName("long-min")[0].value;
+    let longSec = document.getElementsByName("long-sec")[0].value;
+
+    let sound = true;
+    let cycle = false;
+    
+    times = {pomoMin, pomoSec, shortMin, shortSec, longMin, longSec, sound, cycle};
+    localStorage.setItem('times', JSON.stringify(times));
+}
+
+minutes = times.pomoMin;
+seconds = times.pomoSec;
+document.getElementsByName("pomo-min")[0].value = times.pomoMin;
+document.getElementsByName("pomo-sec")[0].value = times.pomoSec;
+document.getElementsByName("short-min")[0].value = times.shortMin;
+document.getElementsByName("short-sec")[0].value = times.shortSec;
+document.getElementsByName("long-min")[0].value = times.longMin;
+document.getElementsByName("long-sec")[0].value = times.longSec;
+prettyTimes();
+document.getElementById("minutes").innerText = times.pomoMin;
+document.getElementById("seconds").innerText = times.pomoSec;
+
+audio.volume = times.sound ? 1 : 0;
+
+let logStorage = localStorage.getItem('log');
+let log;
+let id = 0;
+
+if (logStorage) {
+  log = JSON.parse(localStorage.getItem('log'));
+} else {
+  let stars = 0, id = 0, session = "", length = "", description = "", date = "";
+  let entries = [];
+  log = {stars, entries};
+  localStorage.setItem('log', JSON.stringify(log));
+}
 
 document.getElementById("pomo-time").addEventListener("click", () => {
-  minutes = pomoMin;
-  seconds = pomoSec;
+  minutes = times.pomoMin;
+  seconds = times.pomoSec;
 
   display_time();
 
+  currentTime = document.getElementById("pomo-time");
   document.getElementById("pomo-time").classList.add("selected-time");
   document.getElementById("short-time").classList.remove("selected-time");
   document.getElementById("long-time").classList.remove("selected-time");
 });
 
 document.getElementById("short-time").addEventListener("click", () => {
-  minutes = shortMin;
-  seconds = shortSec;
+  minutes = times.shortMin;
+  seconds = times.shortSec;
 
   display_time();
 
+  currentTime = document.getElementById("short-time");
   document.getElementById("pomo-time").classList.remove("selected-time");
   document.getElementById("short-time").classList.add("selected-time");
   document.getElementById("long-time").classList.remove("selected-time");
 });
 
 document.getElementById("long-time").addEventListener("click", () => {
-  minutes = longMin;
-  seconds = longSec;
+  minutes = times.longMin;
+  seconds = times.longSec;
 
   display_time();
 
+  currentTime = document.getElementById("long-time");
   document.getElementById("pomo-time").classList.remove("selected-time");
   document.getElementById("short-time").classList.remove("selected-time");
   document.getElementById("long-time").classList.add("selected-time");
@@ -72,6 +113,8 @@ document.getElementById("open-settings").addEventListener("click", () => {
   settings.style.top = "10em";
   settings.style.left = "";
   settings.style.display = "grid";
+  settings.style.zIndex = 1;
+  document.getElementById("log").style.zIndex = 0;
 
   /*********/
   /* Times */
@@ -81,7 +124,7 @@ document.getElementById("open-settings").addEventListener("click", () => {
   /*********/
   /* Sound */
   /*********/
-  if (sound) {
+  if (times.sound) {
     document.getElementById("sound").classList.add("checked");
   } else {
     document.getElementById("sound").classList.remove("checked");
@@ -90,11 +133,16 @@ document.getElementById("open-settings").addEventListener("click", () => {
   /*********/
   /* Cycle */
   /*********/
-  if (cycle) {
+  if (times.cycle) {
     document.getElementById("cycle").classList.add("checked");
   } else {
     document.getElementById("cycle").classList.remove("checked");
   }
+});
+
+document.getElementById("settings").addEventListener("click", () => {
+  document.getElementById("settings").style.zIndex = 1;
+  document.getElementById("log").style.zIndex = 0;
 });
 
 dragElement(document.getElementById("settings"));
@@ -115,39 +163,44 @@ document.getElementById("settings-confirm").addEventListener("click", () => {
   (!Number.isNaN(tempShortMin) && tempShortMin >= 0) &&
   (!Number.isNaN(tempShortSec) && tempShortSec >= 0 && tempShortSec < 60) &&
   (!Number.isNaN(tempLongMin) && tempLongMin >= 0) &&
-  (!Number.isNaN(tempLongSec) && tempLongSec >= 0 && tempLongSec < 60))
+  (!Number.isNaN(tempLongSec) && tempLongSec >= 0 && tempLongSec < 60) &&
+  (tempPomoMin != 0 || tempPomoSec != 0) &&
+  (tempShortMin != 0 || tempShortSec != 0) &&
+  (tempLongMin != 0 || tempLongSec != 0))
     valid = true;
   else
     valid = false;
 
   if (valid) {
-    pomoMin = tempPomoMin;
-    pomoSec = tempPomoSec;
-    shortMin = tempShortMin;
-    shortSec = tempShortSec;
-    longMin = tempLongMin;
-    longSec = tempLongSec;
+    times.pomoMin = tempPomoMin;
+    times.pomoSec = tempPomoSec;
+    times.shortMin = tempShortMin;
+    times.shortSec = tempShortSec;
+    times.longMin = tempLongMin;
+    times.longSec = tempLongSec;
   } else {
-    alert("Value must be a number and seconds less than 60.");
+    alert("Value must be a number\nSeconds must be less than 60 and greater than 0");
+    return;
   }
 
   // Sound
   if (document.getElementById("sound").classList.contains("checked")) {
-    sound = true;
+    times.sound = true;
     audio.volume = 1;
   } else {
-    sound = false;
+    times.sound = false;
     audio.volume = 0;
   }
 
   // Cycle
   if (document.getElementById("cycle").classList.contains("checked")) {
-    cycle = true;
+    times.cycle = true;
   } else {
-    cycle = false;
+    times.cycle = false;
     pomos = 0;
   }
 
+  localStorage.setItem('times', JSON.stringify(times));
   document.getElementById("settings-exit").parentNode.parentNode.style.display = "none";
   resetTime();
   display_time();
@@ -163,6 +216,70 @@ for (let i = 0; i < checkboxes.length; i++) {
     checkboxes[i].classList.toggle("checked");
   });
 }
+
+
+/*******/
+/* Log */
+/*******/
+document.getElementById("open-log").addEventListener("click", () => {
+  let logEl = document.getElementById("log");
+
+  if (logEl.style.display == "none" || getComputedStyle(logEl).display == "none") {
+    while (document.getElementById("stars").childNodes.length <= log.stars) {
+      document.getElementById("stars").innerHTML += '<i class="fas fa-star"></i>';
+    }
+
+    document.getElementById("logs").innerHTML =
+      `<div id="log-heading">
+        <p>Session</p>
+        <p>Length</p>
+        <p>Date</p>
+        <p>Description</p>
+      </div>`;
+    for (let i = 0; i < log.entries.length; i++) {
+      document.getElementById("logs").innerHTML +=
+        `<div class="entry" data-id="${log.entries[i].id}">
+          <p class="session">${log.entries[i].session}</p>
+          <p class="length">${log.entries[i].length}</p>
+          <p class="date">${log.entries[i].date}</p>
+          <input class="description" type="text" placeholder="Type Here" value="${log.entries[i].description}" onchange="updateDesc(this)">
+        </div>`;
+    }
+  }
+
+  logEl.style.height = "50vh";
+  logEl.style.width = "50vw";
+  logEl.style.top = "10em";
+  logEl.style.left = "";
+  logEl.style.display = "grid";
+  logEl.style.zIndex = 1;
+  document.getElementById("settings").style.zIndex = 0;
+});
+
+document.getElementById("log").addEventListener("click", () => {
+  document.getElementById("log").style.zIndex = 1;
+  document.getElementById("settings").style.zIndex = 0;
+});
+
+dragElement(document.getElementById("log"));
+
+function updateDesc(el) {
+  log.entries[el.parentNode.dataset.id].description = el.value;
+  localStorage.setItem('log', JSON.stringify(log));
+}
+
+document.getElementById("log-exit").addEventListener("click", () => {
+  document.getElementById("log-exit").parentNode.parentNode.style.display = "none";
+});
+
+document.querySelector(".fa-trash-alt").addEventListener("click", () => {
+  log.stars = 0;
+  log.entries = [];
+  id = 0;
+  localStorage.removeItem('log');
+  document.getElementById("logs").innerHTML = "";
+  document.getElementById("stars").innerHTML = "";
+});
 
 /*************/
 /* Functions */
@@ -181,7 +298,49 @@ function countDown() {
     toggleTimerOn();
     audio.play();
 
-    if (cycle) {
+    let session, length, description, date;
+
+    // Add entry to log
+    switch (currentTime.id) {
+      case "pomo-time":
+        // Add star
+        document.getElementById("stars").innerHTML += '<i class="fas fa-star"></i>';
+        log.stars += 1;
+        localStorage.setItem('log', JSON.stringify(log));
+
+        session = "Pomodoro";
+        length = times.pomoMin + ":" + times.pomoSec;
+        break;
+      case "short-time":
+        session = "Short Break";
+        length = times.shortMin + ":" + times.shortSec;
+        break;
+      case "long-time":
+        session = "Long Break";
+        length = times.longMin  + ":" + times.longSec;
+        break;
+    }
+
+    description = "";
+
+    let options = { year: "2-digit", month: "2-digit", day: "2-digit"};
+    date = new Date().toLocaleDateString('en-US', options);
+
+    let entry = {id, session, length, description, date};
+    id++;
+    log.entries.push(entry);
+    localStorage.setItem('log', JSON.stringify(log));
+
+    document.getElementById("logs").innerHTML +=
+      `<div class="entry" date-id="${id}">
+        <p class="session">${session}</p>
+        <p class="length">${length}</p>
+        <p class="date">${date}</p>
+        <input class="description" type="text" placeholder="Type Here" value="${description}" onchange="updateDesc()">
+      </div>`
+
+    // Handle cycle
+    if (times.cycle) {
       switch (currentTime.id) {
         case "pomo-time":
           if (pomos < 3) {
@@ -249,53 +408,51 @@ function dragElement(element) {
 }
 
 function prettyTimes() {
-  if (pomoMin < 10)
-    document.getElementsByName("pomo-min")[0].value = "0" + Number(pomoMin);
+  if (times.pomoMin < 10)
+    document.getElementsByName("pomo-min")[0].value = "0" + Number(times.pomoMin);
   else
-    document.getElementsByName("pomo-min")[0].value =  Number(pomoMin);
-  if (pomoSec < 10)
-    document.getElementsByName("pomo-sec")[0].value = "0" + Number(pomoSec);
+    document.getElementsByName("pomo-min")[0].value =  Number(times.pomoMin);
+  if (times.pomoSec < 10)
+    document.getElementsByName("pomo-sec")[0].value = "0" + Number(times.pomoSec);
   else
-    document.getElementsByName("pomo-sec")[0].value = Number(pomoSec);
+    document.getElementsByName("pomo-sec")[0].value = Number(times.pomoSec);
 
-  if (shortMin < 10)
-    document.getElementsByName("short-min")[0].value = "0" + Number(shortMin);
+  if (times.shortMin < 10)
+    document.getElementsByName("short-min")[0].value = "0" + Number(times.shortMin);
   else
-    document.getElementsByName("short-min")[0].value =  Number(shortMin);
-  if (shortSec < 10)
-    document.getElementsByName("short-sec")[0].value = "0" + Number(shortSec);
+    document.getElementsByName("short-min")[0].value =  Number(times.shortMin);
+  if (times.shortSec < 10)
+    document.getElementsByName("short-sec")[0].value = "0" + Number(times.shortSec);
   else
-    document.getElementsByName("short-sec")[0].value = Number(shortSec);
+    document.getElementsByName("short-sec")[0].value = Number(times.shortSec);
 
-  if (longMin < 10)
-    document.getElementsByName("long-min")[0].value = "0" + Number(longMin);
+  if (times.longMin < 10)
+    document.getElementsByName("long-min")[0].value = "0" + Number(times.longMin);
   else
-    document.getElementsByName("long-min")[0].value =  Number(longMin);
-  if (longSec < 10)
-    document.getElementsByName("long-sec")[0].value = "0" + Number(longSec);
+    document.getElementsByName("long-min")[0].value =  Number(times.longMin);
+  if (times.longSec < 10)
+    document.getElementsByName("long-sec")[0].value = "0" + Number(times.longSec);
   else
-    document.getElementsByName("long-sec")[0].value = Number(longSec);
+    document.getElementsByName("long-sec")[0].value = Number(times.longSec);
 }
 
 function resetTime() {
   if (document.getElementById("pomo-time").classList.contains("selected-time")) {
-    minutes = pomoMin;
-    seconds = pomoSec;
+    minutes = times.pomoMin;
+    seconds = times.pomoSec;
     display_time();
   } else if (document.getElementById("short-time").classList.contains("selected-time")) {
-    minutes = shortMin;
-    seconds = shortSec;
+    minutes = times.shortMin;
+    seconds = times.shortSec;
     display_time();
   } else {
-    minutes = longMin;
-    seconds = longSec;
+    minutes = times.longMin;
+    seconds = times.longSec;
     display_time();
   }
 }
 
-function toggleTimerOn() {
-  currentTime = document.getElementsByClassName("selected-time")[0];
-
+function toggleTimerOn() {;
   let timerClassList = document.getElementById("timer").classList;
   timerClassList.toggle("on");
 
