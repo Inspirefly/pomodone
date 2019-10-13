@@ -16,18 +16,18 @@ let times;
 if (timeStorage) {
   times = JSON.parse(localStorage.getItem('times'));
 } else {
-    let pomoMin = document.getElementsByName("pomo-min")[0].value;
-    let pomoSec = document.getElementsByName("pomo-sec")[0].value;
-    let shortMin = document.getElementsByName("short-min")[0].value;
-    let shortSec = document.getElementsByName("short-sec")[0].value;
-    let longMin = document.getElementsByName("long-min")[0].value;
-    let longSec = document.getElementsByName("long-sec")[0].value;
+  let pomoMin = document.getElementsByName("pomo-min")[0].value;
+  let pomoSec = document.getElementsByName("pomo-sec")[0].value;
+  let shortMin = document.getElementsByName("short-min")[0].value;
+  let shortSec = document.getElementsByName("short-sec")[0].value;
+  let longMin = document.getElementsByName("long-min")[0].value;
+  let longSec = document.getElementsByName("long-sec")[0].value;
 
-    let sound = true;
-    let cycle = false;
-    
-    times = {pomoMin, pomoSec, shortMin, shortSec, longMin, longSec, sound, cycle};
-    localStorage.setItem('times', JSON.stringify(times));
+  let sound = true;
+  let cycle = false;
+
+  times = { pomoMin, pomoSec, shortMin, shortSec, longMin, longSec, sound, cycle };
+  localStorage.setItem('times', JSON.stringify(times));
 }
 
 minutes = times.pomoMin;
@@ -53,7 +53,8 @@ if (logStorage) {
 } else {
   let stars = 0, id = 0, session = "", length = "", description = "", date = "";
   let entries = [];
-  log = {stars, entries};
+  let removedEntries = [];
+  log = { stars, entries, removedEntries };
   localStorage.setItem('log', JSON.stringify(log));
 }
 
@@ -159,14 +160,14 @@ document.getElementById("settings-confirm").addEventListener("click", () => {
   let tempLongSec = document.getElementsByName("long-sec")[0].value;
 
   if ((!Number.isNaN(tempPomoMin) && tempPomoMin >= 0) &&
-  (!Number.isNaN(tempPomoSec) && tempPomoSec >= 0 && tempPomoSec < 60) &&
-  (!Number.isNaN(tempShortMin) && tempShortMin >= 0) &&
-  (!Number.isNaN(tempShortSec) && tempShortSec >= 0 && tempShortSec < 60) &&
-  (!Number.isNaN(tempLongMin) && tempLongMin >= 0) &&
-  (!Number.isNaN(tempLongSec) && tempLongSec >= 0 && tempLongSec < 60) &&
-  (tempPomoMin != 0 || tempPomoSec != 0) &&
-  (tempShortMin != 0 || tempShortSec != 0) &&
-  (tempLongMin != 0 || tempLongSec != 0))
+    (!Number.isNaN(tempPomoSec) && tempPomoSec >= 0 && tempPomoSec < 60) &&
+    (!Number.isNaN(tempShortMin) && tempShortMin >= 0) &&
+    (!Number.isNaN(tempShortSec) && tempShortSec >= 0 && tempShortSec < 60) &&
+    (!Number.isNaN(tempLongMin) && tempLongMin >= 0) &&
+    (!Number.isNaN(tempLongSec) && tempLongSec >= 0 && tempLongSec < 60) &&
+    (tempPomoMin != 0 || tempPomoSec != 0) &&
+    (tempShortMin != 0 || tempShortSec != 0) &&
+    (tempLongMin != 0 || tempLongSec != 0))
     valid = true;
   else
     valid = false;
@@ -225,7 +226,8 @@ document.getElementById("open-log").addEventListener("click", () => {
   let logEl = document.getElementById("log");
 
   if (logEl.style.display == "none" || getComputedStyle(logEl).display == "none") {
-    while (document.getElementById("stars").childNodes.length <= log.stars) {
+    document.getElementById("stars").innerHTML = "";
+    while (document.getElementById("stars").childNodes.length < log.stars) {
       document.getElementById("stars").innerHTML += '<i class="fas fa-star"></i>';
     }
 
@@ -236,14 +238,27 @@ document.getElementById("open-log").addEventListener("click", () => {
         <p>Date</p>
         <p>Description</p>
       </div>`;
+
     for (let i = 0; i < log.entries.length; i++) {
-      document.getElementById("logs").innerHTML +=
-        `<div class="entry" data-id="${log.entries[i].id}">
+      let found = false;
+
+      for (let j = 0; j < log.removedEntries.length; j++) {
+        if (JSON.stringify(log.entries[i]) == JSON.stringify(log.removedEntries[j])) {
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        document.getElementById("logs").innerHTML +=
+          `<div class="entry" data-id="${log.entries[i].id}">
           <p class="session">${log.entries[i].session}</p>
           <p class="length">${log.entries[i].length}</p>
           <p class="date">${log.entries[i].date}</p>
           <input class="description" type="text" placeholder="Type Here" value="${log.entries[i].description}" onchange="updateDesc(this)">
+          <i class="fas fa-times exit log-close" onclick="removeEntry(this)"/>
         </div>`;
+      }
     }
   }
 
@@ -268,16 +283,39 @@ function updateDesc(el) {
   localStorage.setItem('log', JSON.stringify(log));
 }
 
+function removeEntry(el) {
+  el.parentNode.className += " hidden";
+
+  log.removedEntries.push(log.entries[el.parentNode.dataset.id]);
+
+  if (log.entries[el.parentNode.dataset.id].session == "Pomodoro")
+    log.stars -= 1;
+
+  localStorage.setItem('log', JSON.stringify(log));
+
+  document.getElementById("log-exit").click();
+  document.getElementById("open-log").click();
+}
+
 document.getElementById("log-exit").addEventListener("click", () => {
   document.getElementById("log-exit").parentNode.parentNode.style.display = "none";
 });
 
 document.querySelector(".fa-trash-alt").addEventListener("click", () => {
+  pomos = 0;
   log.stars = 0;
   log.entries = [];
+  log.removedEntries = [];
   id = 0;
   localStorage.removeItem('log');
-  document.getElementById("logs").innerHTML = "";
+  document.getElementById("logs").innerHTML =
+    `<div id="log-heading">
+      <p>Session</p>
+      <p>Length</p>
+      <p>Date</p>
+      <p>Description</p>
+    </div>`;
+
   document.getElementById("stars").innerHTML = "";
 });
 
@@ -317,16 +355,16 @@ function countDown() {
         break;
       case "long-time":
         session = "Long Break";
-        length = times.longMin  + ":" + times.longSec;
+        length = times.longMin + ":" + times.longSec;
         break;
     }
 
     description = "";
 
-    let options = { year: "2-digit", month: "2-digit", day: "2-digit"};
+    let options = { year: "2-digit", month: "2-digit", day: "2-digit" };
     date = new Date().toLocaleDateString('en-US', options);
 
-    let entry = {id, session, length, description, date};
+    let entry = { id, session, length, description, date };
     id++;
     log.entries.push(entry);
     localStorage.setItem('log', JSON.stringify(log));
@@ -337,6 +375,7 @@ function countDown() {
         <p class="length">${length}</p>
         <p class="date">${date}</p>
         <input class="description" type="text" placeholder="Type Here" value="${description}" onchange="updateDesc()">
+        <i class="fas fa-times exit log-close" onclick="removeEntry(this)"/>
       </div>`
 
     // Handle cycle
@@ -411,7 +450,7 @@ function prettyTimes() {
   if (times.pomoMin < 10)
     document.getElementsByName("pomo-min")[0].value = "0" + Number(times.pomoMin);
   else
-    document.getElementsByName("pomo-min")[0].value =  Number(times.pomoMin);
+    document.getElementsByName("pomo-min")[0].value = Number(times.pomoMin);
   if (times.pomoSec < 10)
     document.getElementsByName("pomo-sec")[0].value = "0" + Number(times.pomoSec);
   else
@@ -420,7 +459,7 @@ function prettyTimes() {
   if (times.shortMin < 10)
     document.getElementsByName("short-min")[0].value = "0" + Number(times.shortMin);
   else
-    document.getElementsByName("short-min")[0].value =  Number(times.shortMin);
+    document.getElementsByName("short-min")[0].value = Number(times.shortMin);
   if (times.shortSec < 10)
     document.getElementsByName("short-sec")[0].value = "0" + Number(times.shortSec);
   else
@@ -429,7 +468,7 @@ function prettyTimes() {
   if (times.longMin < 10)
     document.getElementsByName("long-min")[0].value = "0" + Number(times.longMin);
   else
-    document.getElementsByName("long-min")[0].value =  Number(times.longMin);
+    document.getElementsByName("long-min")[0].value = Number(times.longMin);
   if (times.longSec < 10)
     document.getElementsByName("long-sec")[0].value = "0" + Number(times.longSec);
   else
@@ -452,7 +491,8 @@ function resetTime() {
   }
 }
 
-function toggleTimerOn() {;
+function toggleTimerOn() {
+  ;
   let timerClassList = document.getElementById("timer").classList;
   timerClassList.toggle("on");
 

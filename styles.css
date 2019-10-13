@@ -94,7 +94,8 @@ body {
 /************/
 /* Settings */
 /************/
-#settings, #log {
+#settings,
+#log {
   grid-column: 2 / 3;
   height: 50vh;
   width: 50vw;
@@ -127,7 +128,8 @@ body {
   font-size: 2rem;
   cursor: pointer;
   margin-top: 0.1em;
-  margin-right: 0.3em;;
+  margin-right: 0.3em;
+  ;
 }
 
 #settings h3 {
@@ -253,7 +255,8 @@ body {
   overflow-y: auto;
 }
 
-#completed-stars-header, #completed-log-header {
+#completed-stars-header,
+#completed-log-header {
   border-bottom: 1px solid #333333;
   padding: 0.25em;
   font-size: 1.6rem;
@@ -289,10 +292,11 @@ body {
   font-size: 1rem;
   grid-column: 1 / 5;
   display: grid;
-  grid-template-columns: 20% 16% 18% 46%;
+  grid-template-columns: 20% 16% 18% 42% 4%;
 }
 
-.entry p, .description {
+.entry p,
+.description {
   overflow: auto;
 }
 
@@ -313,6 +317,17 @@ body {
   cursor: text;
 }
 
+.log-close {
+  font-size: 0.8rem;
+  align-self: center;
+  justify-self: center;
+}
+
+.hidden {
+  display: none !important;
+  color: red;
+}
+
 .fa-trash-alt {
   grid-column: 2 / 3;
   grid-row: 6 / 7;
@@ -327,7 +342,7 @@ body {
 
   #times form {
     justify-items: center;
-    text-align: center; 
+    text-align: center;
   }
 
   #times form fieldset {
