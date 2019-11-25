@@ -228,7 +228,7 @@ document.getElementById("open-log").addEventListener("click", () => {
   if (logEl.style.display == "none" || getComputedStyle(logEl).display == "none") {
     document.getElementById("stars").innerHTML = "";
     while (document.getElementById("stars").childNodes.length < log.stars) {
-      document.getElementById("stars").innerHTML += '<i class="fas fa-star"></i>';
+      document.getElementById("stars").innerHTML += '<img src="assets/star.png" class="fas fa-star">';
     }
 
     document.getElementById("logs").innerHTML =
@@ -256,7 +256,7 @@ document.getElementById("open-log").addEventListener("click", () => {
           <p class="length">${log.entries[i].length}</p>
           <p class="date">${log.entries[i].date}</p>
           <input class="description" type="text" placeholder="Type Here" value="${log.entries[i].description}" onchange="updateDesc(this)">
-          <i class="fas fa-times exit log-close" onclick="removeEntry(this)"/>
+          <img src="assets/exit.png" class="fas fa-times exit log-close" onclick="removeEntry(this)"/>
         </div>`;
       }
     }
@@ -342,7 +342,7 @@ function countDown() {
     switch (currentTime.id) {
       case "pomo-time":
         // Add star
-        document.getElementById("stars").innerHTML += '<i class="fas fa-star"></i>';
+        document.getElementById("stars").innerHTML += '<img src="assets/star.png" class="fas fa-star">';
         log.stars += 1;
         localStorage.setItem('log', JSON.stringify(log));
 
@@ -375,7 +375,7 @@ function countDown() {
         <p class="length">${length}</p>
         <p class="date">${date}</p>
         <input class="description" type="text" placeholder="Type Here" value="${description}" onchange="updateDesc()">
-        <i class="fas fa-times exit log-close" onclick="removeEntry(this)"/>
+        <img src="assets/exit.png" class="fas fa-times exit log-close" onclick="removeEntry(this)"/>
       </div>`
 
     // Handle cycle
@@ -492,7 +492,6 @@ function resetTime() {
 }
 
 function toggleTimerOn() {
-  ;
   let timerClassList = document.getElementById("timer").classList;
   timerClassList.toggle("on");
 
@@ -502,9 +501,11 @@ function toggleTimerOn() {
     timer = setInterval(countDown, 1000);
     playPauseClassList.remove("fa-play");
     playPauseClassList.add("fa-pause");
+    document.getElementById("play-pause").src = "assets/pause.png";
   } else {
     playPauseClassList.remove("fa-pause");
     playPauseClassList.add("fa-play");
+    document.getElementById("play-pause").src = "assets/play.png";
     clearInterval(timer);
   }
 }
