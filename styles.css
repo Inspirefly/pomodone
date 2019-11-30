@@ -29,8 +29,9 @@ img {
 }
 
 #header {
-  font-size: 3rem;
+  font-size: 5rem;
   padding: 0.5em;
+  margin-bottom: 2em;
   grid-column: 2 / 3;
   justify-self: center;
   font-weight: 700;
