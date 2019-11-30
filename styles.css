@@ -41,13 +41,19 @@ img {
   font-size: 3rem;
   margin: 0.8em 0.8em 0em 0em;
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 0.2em 1fr;
   z-index: 1;
 }
 
 #side-bar img {
   margin: 0.1em;
   cursor: pointer;
+  justify-self: center;
+}
+
+#open-log {
+  grid-row: 3 / 4;
+  height: 0.85em;
 }
 
 #main {
@@ -94,7 +100,10 @@ img {
 #buttons img {
   margin: 0em 0.1em;
   cursor: pointer;
-  width: 1em;
+}
+
+#play-pause {
+  width: 0.9em;
 }
 
 /************/
@@ -133,9 +142,9 @@ img {
 .exit {
   font-size: 2rem;
   cursor: pointer;
-  margin-top: 0.1em;
+  margin-top: 0.3em;
   margin-right: 0.3em;
-  ;
+
 }
 
 #settings h3 {
@@ -215,12 +224,13 @@ img {
   content: "";
   background-image: url("assets/check.png");
   background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background-size: 1em auto;
 }
 
 #settings-confirm {
@@ -339,6 +349,12 @@ img {
   justify-self: end;
   align-self: end;
   cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  #log-heading {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 812px) {

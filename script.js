@@ -118,11 +118,6 @@ document.getElementById("open-settings").addEventListener("click", () => {
   document.getElementById("log").style.zIndex = 0;
 
   /*********/
-  /* Times */
-  /*********/
-  prettyTimes();
-
-  /*********/
   /* Sound */
   /*********/
   if (times.sound) {
@@ -183,6 +178,14 @@ document.getElementById("settings-confirm").addEventListener("click", () => {
     alert("Value must be a number\nSeconds must be less than 60 and greater than 0");
     return;
   }
+
+  prettyTimes();
+  times.pomoMin = document.getElementsByName("pomo-min")[0].value;
+  times.pomoSec = document.getElementsByName("pomo-sec")[0].value;
+  times.shortMin = document.getElementsByName("short-min")[0].value;
+  times.shortSec = document.getElementsByName("short-sec")[0].value;
+  times.longMin = document.getElementsByName("long-min")[0].value;
+  times.longSec = document.getElementsByName("long-sec")[0].value;
 
   // Sound
   if (document.getElementById("sound").classList.contains("checked")) {
