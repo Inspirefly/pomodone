@@ -33,6 +33,7 @@ img {
   padding: 0.5em;
   grid-column: 2 / 3;
   justify-self: center;
+  font-weight: 700;
 }
 
 #side-bar {
