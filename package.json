@@ -1,0 +1,22 @@
+{
+  "name": "pomodone",
+  "version": "1.0.0",
+  "description": "Pomodoro Timer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Inspirefly/pomodone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Inspirefly/pomodone/issues"
+  },
+  "homepage": "https://github.com/Inspirefly/pomodone#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
